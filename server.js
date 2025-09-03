@@ -152,5 +152,4 @@ app.get("/api/playlist", (_req, res) => {
   res.json(list);
 });
 app.get("*", (_req, res) => { res.sendFile(path.join(__dirname, "public", "index.html")); });
-
-export default app;
+app.listen(PORT, () => console.log(`✅ TechAnimeHub running at http://localhost:${PORT}`));
