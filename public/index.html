@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TechAnimeHub</title>
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <div id="progress" class="progress"></div>
+
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo" onclick="activateTab('tech')">TechAnimeHub</div>
+    </div>
+    <div class="nav-center">
+      <form id="searchForm" class="search">
+        <input id="searchInput" type="search" placeholder="Search Tech, Anime & Movies..." />
+        <button class="btn" type="submit">Search</button>
+      </form>
+    </div>
+    <div class="nav-right">
+      <button id="themeBtn" class="icon-btn" title="Toggle theme">🌗</button>
+      <button id="menuBtn" class="icon-btn mobile-only" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <aside id="drawer" class="drawer">
+    <nav>
+      <a href="#" onclick="activateTab('tech');closeDrawer()">Tech News</a>
+      <a href="#" onclick="activateTab('anime');closeDrawer()">Anime News</a>
+      <a href="#" onclick="activateTab('movies');closeDrawer()">Movies News</a>
+      <a href="#" onclick="activateTab('videos');closeDrawer()">Anime Videos</a>
+      <a href="#" onclick="openSearch();closeDrawer()">Search</a>
+    </nav>
+  </aside>
+  <div id="backdrop" class="backdrop" onclick="closeDrawer()"></div>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="tech">Tech</button>
+    <button class="tab" data-tab="anime">Anime</button>
+    <button class="tab" data-tab="movies">Movies</button>
+    <button class="tab" data-tab="videos">Anime Videos</button>
+    <button id="refreshBtn" class="btn small">↻ Refresh</button>
+  </nav>
+
+  <main class="container">
+    <section id="panel-tech" class="panel active">
+      <div id="tech-grid" class="grid skeleton-grid"></div>
+    </section>
+
+    <section id="panel-anime" class="panel">
+      <div id="anime-grid" class="grid skeleton-grid"></div>
+    </section>
+
+    <section id="panel-movies" class="panel">
+      <div id="movies-grid" class="grid skeleton-grid"></div>
+    </section>
+
+    <section id="panel-videos" class="panel">
+      <div class="video-layout">
+        <div class="player">
+          <div class="aspect">
+            <iframe id="player" 
+              width="100%" 
+              height="480" 
+              src="" 
+              title="Anime Player" 
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen></iframe>
+          </div>
+          <h1 id="nowTitle" class="now-title"></h1>
+          <div class="playlist-search">
+            <input id="playlistSearch" type="search" placeholder="Search in playlist..." />
+          </div>
+        </div>
+        <aside class="playlist">
+          <h2>Anime Playlist</h2>
+          <ul id="list"></ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="panel-search" class="panel">
+      <h2>Search Results</h2>
+      <div id="search-grid" class="grid"></div>
+    </section>
+  </main>
+
+  <footer class="foot">© TechAnimeHub </footer>
+
+  <script src="/assets/main.js" type="module"></script>
+</body>
+</html>
