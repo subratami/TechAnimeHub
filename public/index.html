@@ -13,14 +13,10 @@
     <div class="nav-left">
       <div class="logo" onclick="activateTab('tech')">TechAnimeHub</div>
     </div>
-    <div class="nav-center">
-      <form id="searchForm" class="search">
-        <input id="searchInput" type="search" placeholder="Search Tech, Anime & Movies..." />
-        <button class="btn" type="submit">Search</button>
-      </form>
-    </div>
     <div class="nav-right">
-      <button id="themeBtn" class="icon-btn" title="Toggle theme">🌗</button>
+      <div class="theme-toggle-wrap">
+        <button id="themeBtn" class="icon-btn" title="Toggle theme">🌗</button>
+      </div>
       <button id="menuBtn" class="icon-btn mobile-only" aria-label="Menu">☰</button>
     </div>
   </header>
@@ -31,7 +27,6 @@
       <a href="#" onclick="activateTab('anime');closeDrawer()">Anime News</a>
       <a href="#" onclick="activateTab('movies');closeDrawer()">Movies News</a>
       <a href="#" onclick="activateTab('videos');closeDrawer()">Anime Videos</a>
-      <a href="#" onclick="openSearch();closeDrawer()">Search</a>
     </nav>
   </aside>
   <div id="backdrop" class="backdrop" onclick="closeDrawer()"></div>
@@ -58,7 +53,11 @@
     </section>
 
     <section id="panel-videos" class="panel">
-      <div class="video-layout">
+      <div class="playlist-search">
+        <input id="playlistSearch" type="search" placeholder="Search in playlist..." />
+      </div>
+      <div id="video-grid" class="grid"></div>
+      <div id="video-player-container" style="display:none;">
         <div class="player">
           <div class="aspect">
             <iframe id="player" 
@@ -71,24 +70,13 @@
               allowFullScreen></iframe>
           </div>
           <h1 id="nowTitle" class="now-title"></h1>
-          <div class="playlist-search">
-            <input id="playlistSearch" type="search" placeholder="Search in playlist..." />
-          </div>
         </div>
-        <aside class="playlist">
-          <h2>Anime Playlist</h2>
-          <ul id="list"></ul>
-        </aside>
       </div>
-    </section>
-
-    <section id="panel-search" class="panel">
-      <h2>Search Results</h2>
-      <div id="search-grid" class="grid"></div>
     </section>
   </main>
 
   <footer class="foot">© TechAnimeHub </footer>
+  <button id="scrollTopBtn" class="icon-btn" title="Go to top">↑</button>
 
   <script src="/assets/main.js" type="module"></script>
 </body>

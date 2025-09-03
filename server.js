@@ -55,12 +55,13 @@ function writeOGCache(obj) { fs.writeFileSync(ogCacheFile, JSON.stringify(obj, n
 
 function pickFirstImage(item) {
   const media = item["media:content"] || item["media:thumbnail"];
+  if (typeof media === 'string') return media;
   if (media?.url) return media.url;
   if (Array.isArray(media) && media[0]?.url) return media[0].url;
   if (item.enclosure?.url) return item.enclosure.url;
   const html = item["content:encoded"] || item.content || "";
   if (typeof html === "string") {
-    const m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+    const m = html.match(/<img[^>]+src=['\"]([^'\"]+)['\"]/i);
     if (m) return m[1];
   }
   return null;
@@ -98,20 +99,26 @@ async function ensureThumbnail(item, category) {
   if (item.image) return item.image;
   const ogCache = readOGCache();
   if (ogCache[item.link]) return ogCache[item.link];
+  // console.log(`[Thumbnail] Fetching OG image for: ${item.link}`);
   try {
     const resp = await axios.get(item.link, { timeout: 15000, headers: { "User-Agent": "TechAnimeHub/1.0" } });
     const html = resp.data || "";
-    const og = String(html).match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["'][^>]*>/i);
-    const tw = String(html).match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["'][^>]*>/i);
-    const href = String(html).match(/<link[^>]+rel=["']image_src["'][^>]+href=["']([^"']+)["'][^>]*>/i);
+    const og = String(html).match(/<meta[^>]+property=['\"]og:image['\"][^>]+content=['\"]([^'\"]+)['\"][^>]*>/i);
+    const tw = String(html).match(/<meta[^>]+name=['\"]twitter:image['\"][^>]+content=['\"]([^'\"]+)['\"][^>]*>/i);
+    const href = String(html).match(/<link[^>]+rel=['\"]image_src['\"][^>]+href=['\"]([^'\"]+)['\"][^>]*>/i);
     const found = og?.[1] || tw?.[1] || href?.[1] || null;
     if (found) {
+      // console.log(`[Thumbnail] Found OG image: ${found}`);
       ogCache[item.link] = found;
       writeOGCache(ogCache);
       return found;
     }
-  } catch {}
-  return `/placeholders/${category}.svg`;
+  } catch (e) {
+    // console.error(`[Thumbnail] Error fetching ${item.link}: ${e.message}`);
+  }
+  const placeholder = `/placeholders/${category}.svg`;
+  // console.log(`[Thumbnail] Using placeholder for ${item.link}: ${placeholder}`);
+  return placeholder;
 }
 // initial prefetch & light enrichment
 (async () => {
@@ -133,19 +140,6 @@ app.get("/api/news/:category", async (req, res) => {
   if (!SOURCES[cat]) return res.status(404).json({ error: "Unknown category" });
   const out = await Promise.all((mem[cat] || []).slice(0, 60).map(async it => ({ ...it, image: await ensureThumbnail(it, cat) })));
   res.json({ category: cat, fetchedAt: mem.fetchedAt, items: out });
-});
-app.get("/api/search", async (req, res) => {
-  const q = (req.query.q || "").toString().trim().toLowerCase();
-  if (!q) return res.json({ items: [] });
-  const cats = Object.keys(SOURCES);
-  let results = [];
-  for (const c of cats) {
-    const items = mem[c] || [];
-    const filtered = items.filter(it => (it.title || "").toLowerCase().includes(q)).slice(0, 20);
-    const enriched = await Promise.all(filtered.map(async it => ({ ...it, image: await ensureThumbnail(it, c), category: c })));
-    results = results.concat(enriched);
-  }
-  res.json({ items: results.slice(0, 60) });
 });
 app.post("/api/refresh", async (_req, res) => {
   for (const c of Object.keys(SOURCES)) await refreshCategory(c);
