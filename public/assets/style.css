@@ -6,6 +6,7 @@
 
 .navbar{position:sticky;top:0;z-index:1000;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--border);box-shadow:0 2px 8px var(--shadow)}
 .logo{font-weight:900;cursor:pointer;white-space:nowrap}
+.main-logo{height:40px;width:auto;object-fit:contain}
 .search{display:flex;gap:8px}
 .search input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text)}
 .search .btn{padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--accent);color:#fff;cursor:pointer}
@@ -33,9 +34,9 @@
 
 .container{padding:16px}
 .panel{display:none}
-.panel.active{display:block}
+.panel.active{display:block;}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;height:100%;box-shadow:0 6px 20px var(--shadow)}
 .card img{width:100%;height:160px;object-fit:cover;background:#000}
 .card .p{padding:12px;display:flex;flex-direction:column;gap:8px}
@@ -52,7 +53,7 @@
 .video-layout{display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start}
 @media (max-width:960px){.video-layout{grid-template-columns:1fr}}
 .player .aspect{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
-.player iframe{position:absolute;inset:0;width:100%;height:100%}
+.player iframe{position:absolute;inset:0;width:80%;height:80%}
 .now-title{margin:10px 2px 0;font-size:clamp(16px,2.5vw,22px)}
 .playlist-search{margin-top:10px}
 .playlist-search input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text); margin-bottom: 10px;}
@@ -87,4 +88,7 @@
   .playlist-search input {
     width: 50%;
   }
+}
+@media (max-width:450px) {
+  .main-logo{height:30px;width:auto;object-fit:contain}
 }
