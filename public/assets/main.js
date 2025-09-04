@@ -36,7 +36,8 @@ function navigateToTab(tab) {
   activateTab(tab);
 }
 
-function activateTab(tab) {
+// Make activateTab available globally
+window.activateTab = function(tab) {
   $$('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   $$('.panel').forEach(p => p.classList.remove('active'));
   const panel = $('#panel-' + tab);

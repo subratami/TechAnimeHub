@@ -28,7 +28,9 @@ const SOURCES = {
     "https://www.wired.com/feed/rss",
     "https://www.tomshardware.com/feeds/all",
     "https://www.theregister.com/headlines.atom",
-    "https://hnrss.org/frontpage"
+    "https://hnrss.org/frontpage",
+    "https://www.xda-developers.com/feed/",
+    "https://feeds.feedburner.com/ign/tech-articles"
   ],
   anime: [
     "https://www.animenewsnetwork.com/all/rss.xml",
