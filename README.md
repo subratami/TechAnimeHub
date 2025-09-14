@@ -1,6 +1,6 @@
 # TechAnimeHub
 
-A lightweight Node.js + Express web app that aggregates **Tech**, **Anime**, and **Movies** news with **auto-thumbnails** and includes a **YouTube-style Anime Videos** page with a playlist that **remembers the last played video** (no autoplay).
+A lightweight Node.js + Express web app that aggregates **Tech**, **Anime**, and **Movies** news and includes a **YouTube-style Anime Videos** page with a playlist that **remembers the last played video** (no autoplay).
 
 ## Features
 - 📰 **Tech News** as the homepage
