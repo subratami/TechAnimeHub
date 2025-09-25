@@ -8,6 +8,7 @@
     "dev": "node server.js"
   },
   "dependencies": {
+    "@extractus/article-extractor": "^8.0.8",
     "axios": "^1.6.7",
     "cors": "^2.8.5",
     "express": "^4.19.2",

@@ -11,6 +11,10 @@ $('#themeBtn').addEventListener('click', () => {
   const isLight = document.documentElement.classList.toggle('light');
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
 });
+$('#themeBtnMobile').addEventListener('click', () => {
+  const isLight = document.documentElement.classList.toggle('light');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
 
 const drawer = $('#drawer');
 const backdrop = $('#backdrop');
@@ -36,7 +40,6 @@ function navigateToTab(tab) {
   activateTab(tab);
 }
 
-// Make activateTab available globally
 window.activateTab = function(tab) {
   $$('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   $$('.panel').forEach(p => p.classList.remove('active'));
@@ -105,8 +108,44 @@ function renderNews(items, containerSel, cat) {
     const img = item.image || `/placeholders/${cat}.svg`;
     const card = document.createElement('article');
     card.className = 'card';
-    card.innerHTML = `<img src="${img}" loading="lazy" alt=""><div class="p"><div class="title">${item.title}</div><div class="meta">${new Date(item.pubDate || Date.now()).toLocaleString()}</div><a class="link" href="${item.link}" target="_blank" rel="noopener">Read →</a></div>`;
+    card.innerHTML = `<img src="${img}" loading="lazy" alt=""><div class="p"><div class="title">${item.title}</div><div class="meta">${new Date(item.pubDate || Date.now()).toLocaleString()}</div><button class="btn small read-btn">Read</button></div>`;
+    card.querySelector('.read-btn').addEventListener('click', () => openArticle(item.link));
     el.appendChild(card);
+  }
+}
+
+const articleSidebar = $('#article-sidebar');
+const sidebarTitle = $('#sidebar-title');
+const sidebarBody = $('#sidebar-body');
+const closeSidebarBtn = $('#close-sidebar-btn');
+const sidebarBackdrop = $('#sidebar-backdrop');
+
+function closeSidebar() {
+  articleSidebar.classList.remove('open');
+  sidebarBackdrop.classList.remove('open');
+  closeSidebarBtn.classList.remove('mobile-close-btn');
+}
+
+closeSidebarBtn.addEventListener('click', closeSidebar);
+sidebarBackdrop.addEventListener('click', closeSidebar);
+
+async function openArticle(url) {
+  articleSidebar.classList.add('open');
+  sidebarBackdrop.classList.add('open');
+  if (window.innerWidth <= 768) {
+    closeSidebarBtn.classList.add('mobile-close-btn');
+  }
+  sidebarTitle.textContent = 'Loading...';
+  sidebarBody.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>';
+  try {
+    const res = await fetch(`/api/extract?url=${encodeURIComponent(url)}`);
+    const article = await res.json();
+    sidebarTitle.innerHTML = `<h2 class="sidebar-title">${article.title}</h2>`;
+    sidebarBody.innerHTML = article.content;
+  } catch (err) {
+    sidebarTitle.textContent = 'Error';
+    sidebarBody.innerHTML = 'Failed to load article. Please try again later.';
+    console.error('Failed to extract article:', err);
   }
 }
 

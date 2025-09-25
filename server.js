@@ -6,6 +6,7 @@ import axios from "axios";
 import cron from "node-cron";
 import { XMLParser } from "fast-xml-parser";
 import { fileURLToPath } from "url";
+import { extract } from "@extractus/article-extractor";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -147,6 +148,22 @@ app.post("/api/refresh", async (_req, res) => {
   for (const c of Object.keys(SOURCES)) await refreshCategory(c);
   res.json({ ok: true, fetchedAt: mem.fetchedAt });
 });
+
+app.get('/api/extract', async (req, res) => {
+  const url = req.query.url;
+  if (!url) return res.status(400).json({ error: 'URL is required' });
+  try {
+    const article = await extract(url);
+    const ogCache = readOGCache();
+    const image = article.image || ogCache[url];
+    const contentWithImage = image ? `<img src="${image}" class="article-image" alt="Article Image">${article.content}` : article.content;
+    const simplifiedArticle = { title: article.title, content: contentWithImage };
+    res.json(simplifiedArticle);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to extract article', details: err.message });
+  }
+});
+
 const playlistFile = path.join(__dirname, "data", "playlist.json");
 function readPlaylist() { try { return JSON.parse(fs.readFileSync(playlistFile, "utf-8")); } catch { return []; } }
 app.get("/api/playlist", (_req, res) => {

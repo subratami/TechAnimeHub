@@ -32,6 +32,9 @@
       <a href="#" onclick="activateTab('movies');closeDrawer()">Movies News</a>
       <a href="#" onclick="activateTab('videos');closeDrawer()">Anime Videos</a>
     </nav>
+    <div class="theme-toggle-wrap mobile-only">
+      <button id="themeBtnMobile" class="icon-btn" title="Toggle theme">🌗</button>
+    </div>
   </aside>
   <div id="backdrop" class="backdrop" onclick="closeDrawer()"></div>
 
@@ -79,9 +82,18 @@
     </section>
   </main>
 
+  <div id="article-sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <h2 id="sidebar-title"></h2>
+      <button id="close-sidebar-btn" class="close-btn">&times;</button>
+    </div>
+    <div id="sidebar-body" class="sidebar-body"></div>
+  </div>
+  <div id="sidebar-backdrop" class="backdrop"></div>
+
   <footer class="foot">© TechAnimeHub </footer>
   <button id="scrollTopBtn" class="icon-btn" title="Go to top">↑</button>
 
-  <script src="/assets/main.js" type="module"></script>
+  <script src="/assets/main.js?v=1.1" type="module"></script>
 </body>
 </html>
