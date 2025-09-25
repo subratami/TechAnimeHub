@@ -67,7 +67,7 @@ const progress = $('#progress');
 function startProgress() { progress.style.width = '10%'; setTimeout(() => { progress.style.width = '40%'; }, 100); }
 function endProgress() { progress.style.width = '100%'; setTimeout(() => { progress.style.width = '0%'; }, 250); }
 
-$('#refreshBtn').addEventListener('click', async () => {
+async function refreshNews() {
   try {
     startProgress();
     await fetch('/api/refresh', { method: 'POST' });
@@ -78,7 +78,7 @@ $('#refreshBtn').addEventListener('click', async () => {
   } finally {
     setTimeout(endProgress, 400);
   }
-});
+}
 
 function showSkeletons(containerSel, count = 8) {
   const el = document.querySelector(containerSel);
@@ -228,6 +228,7 @@ scrollTopBtn.addEventListener('click', () => {
 
 
 // Initial load
+refreshNews();
 const path = window.location.hash.slice(2);
 if (path.match(/^[a-zA-Z0-9_-]{11}$/)) {
   // Looks like a video ID
