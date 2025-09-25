@@ -14,7 +14,7 @@ A lightweight Node.js + Express web app that aggregates **Tech**, **Anime**, and
 - 🎥 **Anime Videos** page with playlist (YouTube-style layout)
 - 🧠 **Remembers last played video** (no autoplay, stored in localStorage)
 - ⏱️ **Scheduled background refresh** every 30 minutes
-- 🔄 Manual **Refresh** button
+
 
 ## Run locally
 ```bash
