@@ -108,8 +108,8 @@ function renderNews(items, containerSel, cat) {
     const img = item.image || `/placeholders/${cat}.svg`;
     const card = document.createElement('article');
     card.className = 'card';
-    card.innerHTML = `<img src="${img}" loading="lazy" alt=""><div class="p"><div class="title">${item.title}</div><div class="meta">${new Date(item.pubDate || Date.now()).toLocaleString()}</div><button class="btn small read-btn">Read</button></div>`;
-    card.querySelector('.read-btn').addEventListener('click', () => openArticle(item.link));
+    card.innerHTML = `<img src="${img}" loading="lazy" alt=""><div class="p"><div class="title">${item.title}</div><div class="meta">${new Date(item.pubDate || Date.now()).toLocaleString()}</div></div>`;
+    card.addEventListener('click', () => openArticle(item.link));
     el.appendChild(card);
   }
 }
