@@ -34,7 +34,7 @@ const SOURCES = {
     "https://feeds.feedburner.com/ign/tech-articles"
   ],
   anime: [
-    "https://www.animenewsnetwork.com/all/rss.xml",
+    //"https://www.animenewsnetwork.com/all/rss.xml",
 	  "https://myanimelist.net/rss/news.xml",
     "https://animeuknews.net/feed/",
     "https://otakuusamagazine.com/feed/"
