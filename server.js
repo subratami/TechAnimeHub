@@ -154,11 +154,7 @@ app.get('/api/extract', async (req, res) => {
   if (!url) return res.status(400).json({ error: 'URL is required' });
   try {
     const article = await extract(url);
-    const ogCache = readOGCache();
-    const image = article.image || ogCache[url];
-    const contentWithImage = image ? `<img src="${image}" class="article-image" alt="Article Image">${article.content}` : article.content;
-    const simplifiedArticle = { title: article.title, content: contentWithImage };
-    res.json(simplifiedArticle);
+    res.json({ title: article.title, content: article.content });
   } catch (err) {
     res.status(500).json({ error: 'Failed to extract article', details: err.message });
   }
